@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开源精神 - 管理员后台</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐧</text></svg>">
+</head>
+<body class="admin-body">
+    <!-- 管理员头部 -->
+    <header class="admin-header">
+        <div class="admin-brand">
+            <i class="fas fa-user-shield"></i>
+            <span>开源精神 - 管理员后台</span>
+        </div>
+        <div class="admin-user">
+            <span id="admin-name">管理员</span>
+            <button class="btn btn-outline btn-sm" id="admin-logout">
+                <i class="fas fa-sign-out-alt"></i> 退出
+            </button>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <nav class="admin-sidebar">
+            <div class="sidebar-menu">
+                <a href="#" class="sidebar-item active" data-view="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>仪表盘</span>
+                </a>
+                <a href="#" class="sidebar-item" data-view="projects">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>项目管理</span>
+                </a>
+                <a href="#" class="sidebar-item" data-view="users">
+                    <i class="fas fa-users"></i>
+                    <span>用户管理</span>
+                </a>
+                <a href="#" class="sidebar-item" data-view="logs">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>操作日志</span>
+                </a>
+                <a href="#" class="sidebar-item" data-view="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>系统设置</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- 主内容 -->
+        <main class="admin-main">
+            <!-- 登录页面 -->
+            <div class="admin-login" id="admin-login-page">
+                <div class="login-card">
+                    <div class="login-header">
+                        <i class="fas fa-user-shield"></i>
+                        <h2>管理员登录</h2>
+                        <p>开源精神管理系统后台</p>
+                    </div>
+                    
+                    <form id="admin-login-form">
+                        <div class="form-group">
+                            <label for="admin-login-username">
+                                <i class="fas fa-user-tie"></i> 管理员账号
+                            </label>
+                            <input 
+                                type="text" 
+                                id="admin-login-username" 
+                                placeholder="输入管理员账号"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-login-password">
+                                <i class="fas fa-lock"></i> 管理员密码
+                            </label>
+                            <input 
+                                type="password" 
+                                id="admin-login-password" 
+                                placeholder="输入管理员密码"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-sign-in-alt"></i> 登录管理后台
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="login-footer">
+                        <p><i class="fas fa-info-circle"></i> 提示：所有管理员使用相同账号密码登录</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 仪表盘 -->
+            <div class="admin-view" id="dashboard-view" style="display: none;">
+                <div class="view-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> 系统仪表盘</h2>
+                    <div class="view-actions">
+                        <button class="btn btn-outline" id="refresh-dashboard">
+                            <i class="fas fa-sync-alt"></i> 刷新
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stat-card large">
+                        <div class="stat-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-projects">0</h3>
+                            <p>总项目数</p>
+                        </div>
+                        <div class="stat-trend">
+                            <span class="trend-up" id="project-trend">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card large">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-users">0</h3>
+                            <p>总用户数</p>
+                        </div>
+                        <div class="stat-trend">
+                            <span class="trend-up" id="user-trend">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card large">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-projects">0</h3>
+                            <p>待审核项目</p>
+                        </div>
+                        <div class="stat-trend">
+                            <a href="#" class="btn btn-sm btn-warning" data-view="projects" data-filter="pending">
+                                立即处理
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="stat-card large">
+                        <div class="stat-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="today-searches">0</h3>
+                            <p>今日搜索</p>
+                        </div>
+                        <div class="stat-trend">
+                            <span class="trend-up" id="search-trend">+0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-card">
+                        <h4><i class="fas fa-chart-bar"></i> 项目状态分布</h4>
+                        <div class="chart-container">
+                            <canvas id="status-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h4><i class="fas fa-chart-line"></i> 近7天申请趋势</h4>
+                        <div class="chart-container">
+                            <canvas id="trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h4><i class="fas fa-history"></i> 最近活动</h4>
+                    <div class="activity-list" id="activity-list">
+                        <!-- 活动记录会动态插入 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目管理 -->
+            <div class="admin-view" id="projects-view" style="display: none;">
+                <div class="view-header">
+                    <h2><i class="fas fa-project-diagram"></i> 项目管理</h2>
+                    <div class="view-actions">
+                        <select id="status-filter" class="filter-select">
+                            <option value="">所有状态</option>
+                            <option value="pending">待审核</option>
+                            <option value="approved">已通过</option>
+                            <option value="rejected">未通过</option>
+                        </select>
+                        <input 
+                            type="text" 
+                            id="project-search" 
+                            class="search-input" 
+                            placeholder="搜索项目..."
+                        >
+                        <button class="btn btn-primary" id="export-projects">
+                            <i class="fas fa-download"></i> 导出
+                        </button>
+                    </div>
+                </div>
+
+                <div class="projects-table-container">
+                    <table class="admin-table" id="projects-table">
+                        <thead>
+                            <tr>
+                                <th>开源号</th>
+                                <th>项目名称</th>
+                                <th>申请人</th>
+                                <th>申请时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body">
+                            <!-- 项目数据会动态插入 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="projects-prev" class="btn btn-outline">
+                        <i class="fas fa-chevron-left"></i> 上一页
+                    </button>
+                    <span class="page-info">
+                        第 <span id="projects-current">1</span> 页 / 共 <span id="projects-total">1</span> 页
+                    </span>
+                    <button id="projects-next" class="btn btn-outline">
+                        下一页 <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 项目详情模态框 -->
+            <div class="modal" id="project-detail-modal">
+                <div class="modal-content large">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-info-circle"></i> 项目详情</h3>
+                        <button class="modal-close" id="close-detail-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="detail-section">
+                            <h4>基本信息</h4>
+                            <div class="detail-grid">
+                                <div class="detail-item">
+                                    <strong>开源号：</strong>
+                                    <span id="detail-id">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>项目名称：</strong>
+                                    <span id="detail-name">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>申请人：</strong>
+                                    <span id="detail-applicant">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>联系方式：</strong>
+                                    <span id="detail-contact">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>申请时间：</strong>
+                                    <span id="detail-apply-time">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>当前状态：</strong>
+                                    <span class="status-badge" id="detail-status">-</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>项目地址</h4>
+                            <div class="detail-links">
+                                <div class="link-item">
+                                    <strong>第一开源地址：</strong>
+                                    <a href="#" id="detail-first-repo" target="_blank">查看</a>
+                                </div>
+                                <div class="link-item">
+                                    <strong>第二开源地址：</strong>
+                                    <a href="#" id="detail-second-repo" target="_blank">查看</a>
+                                </div>
+                                <div class="link-item">
+                                    <strong>视频地址：</strong>
+                                    <a href="#" id="detail-video" target="_blank">观看</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>状态管理</h4>
+                            <div class="status-actions">
+                                <button class="btn btn-success" data-status="approved">
+                                    <i class="fas fa-check"></i> 通过审核
+                                </button>
+                                <button class="btn btn-warning" data-status="pending">
+                                    <i class="fas fa-clock"></i> 设为待审
+                                </button>
+                                <button class="btn btn-danger" data-status="rejected">
+                                    <i class="fas fa-times"></i> 拒绝申请
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>危险操作</h4>
+                            <div class="danger-actions">
+                                <button class="btn btn-danger-outline" id="delete-project">
+                                    <i class="fas fa-trash"></i> 删除项目
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="/js/main.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

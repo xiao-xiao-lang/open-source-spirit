@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开源精神 - 个人主页</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐧</text></svg>">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-code-branch"></i>
+                <span>开源精神</span>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">
+                    <i class="fas fa-search"></i>
+                    <span>查询</span>
+                </a>
+                <a href="/apply.html" class="nav-link">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>申号</span>
+                </a>
+                <a href="/profile.html" class="nav-link active">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="container">
+        <!-- 页面头部 -->
+        <header class="page-header">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profile-username">开源爱好者</h1>
+                    <p class="subtitle" id="profile-contact">联系方式</p>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-outline" id="admin-access">
+                        <i class="fas fa-cog"></i> 管理员
+                    </button>
+                    <div class="dropdown-menu" id="admin-dropdown" style="display: none;">
+                        <a href="#" class="dropdown-item" id="admin-login">
+                            <i class="fas fa-sign-in-alt"></i> 管理员登录
+                        </a>
+                        <a href="https://space.bilibili.com" target="_blank" class="dropdown-item">
+                            <i class="fab fa-bilibili"></i> B站主页
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 登录/注册部分 -->
+        <div class="auth-section" id="auth-section">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">登录</button>
+                <button class="auth-tab" data-tab="register">注册</button>
+            </div>
+
+            <!-- 登录表单 -->
+            <form id="login-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="login-contact">
+                        <i class="fas fa-address-book"></i> 联系方式
+                    </label>
+                    <input 
+                        type="text" 
+                        id="login-contact" 
+                        placeholder="输入您注册时使用的QQ、邮箱、电话或B站链接"
+                        required
+                    >
+                    <div class="form-hint">请输入您注册时填写的联系方式</div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> 登录
+                    </button>
+                </div>
+            </form>
+
+            <!-- 注册表单 -->
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-username">
+                        <i class="fas fa-user"></i> 用户名 *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="register-username" 
+                        placeholder="设置您的用户名（唯一）"
+                        required
+                    >
+                    <div class="form-hint">用于登录和显示的名称</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-nickname">
+                        <i class="fas fa-id-card"></i> 昵称 *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="register-nickname" 
+                        placeholder="您希望显示的昵称"
+                        required
+                    >
+                    <div class="form-hint">在平台上显示的名称</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-contact-type">
+                        <i class="fas fa-phone-alt"></i> 联系方式类型 *
+                    </label>
+                    <select id="register-contact-type" required>
+                        <option value="">请选择联系方式</option>
+                        <option value="qq">QQ号</option>
+                        <option value="email">电子邮箱</option>
+                        <option value="phone">电话号码</option>
+                        <option value="bilibili">B站主页链接</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-contact-value">
+                        <i class="fas fa-keyboard"></i> 联系方式 *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="register-contact-value" 
+                        placeholder="请输入对应的联系方式"
+                        required
+                    >
+                    <div class="form-hint" id="contact-hint">
+                        请输入您选择的联系方式
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> 注册
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 已登录内容 -->
+        <div class="profile-content" id="profile-content" style="display: none;">
+            <!-- 统计数据 -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon approved">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="approved-count">0</h3>
+                            <p>已通过</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-count">0</h3>
+                            <p>审核中</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon rejected">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="rejected-count">0</h3>
+                            <p>未通过</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-count">0</h3>
+                            <p>总申请</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最近申请 -->
+            <div class="recent-applications">
+                <div class="section-header">
+                    <h3><i class="fas fa-history"></i> 最近申请</h3>
+                    <a href="/apply.html" class="btn btn-outline">
+                        <i class="fas fa-plus"></i> 新申请
+                    </a>
+                </div>
+
+                <div class="applications-list" id="profile-applications">
+                    <!-- 申请记录会通过JS动态插入 -->
+                    <div class="empty-applications">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>暂无申请记录</h3>
+                        <p>前往"申号"页面创建您的第一个开源项目</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户信息 -->
+            <div class="user-info-section">
+                <h3><i class="fas fa-info-circle"></i> 账户信息</h3>
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="info-label">用户名</span>
+                        <span class="info-value" id="info-username">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">昵称</span>
+                        <span class="info-value" id="info-nickname">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">联系方式</span>
+                        <span class="info-value" id="info-contact">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">注册时间</span>
+                        <span class="info-value" id="info-register-time">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">上次登录</span>
+                        <span class="info-value" id="info-last-login">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-section">
+                <button class="btn btn-outline" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 管理员登录模态框 -->
+    <div class="modal" id="admin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-shield"></i> 管理员登录</h3>
+                <button class="modal-close" id="close-admin-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-notice">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>管理员账户为统一账户，所有管理员使用相同凭据登录</p>
+                </div>
+
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <label for="admin-username">
+                            <i class="fas fa-user-tie"></i> 管理员账号
+                        </label>
+                        <input 
+                            type="text" 
+                            id="admin-username" 
+                            placeholder="输入管理员账号"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admin-password">
+                            <i class="fas fa-lock"></i> 管理员密码
+                        </label>
+                        <input 
+                            type="password" 
+                            id="admin-password" 
+                            placeholder="输入管理员密码"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> 登录管理后台
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+        <a href="/" class="bottom-nav-item">
+            <i class="fas fa-search"></i>
+            <span>查询</span>
+        </a>
+        <a href="/apply.html" class="bottom-nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>申号</span>
+        </a>
+        <a href="/profile.html" class="bottom-nav-item active">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="/js/main.js"></script>
+    <script src="/js/profile.js"></script>
+</body>
+</html>
