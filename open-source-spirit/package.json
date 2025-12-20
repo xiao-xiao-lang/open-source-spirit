@@ -1,4 +1,5 @@
 {
+   sed -i 's/"build": "echo.*"/"build": "echo \\"Build successful for Cloudflare Pages\\""/' package.json
   "name": "open-source-spirit",
   "version": "1.0.0",
   "description": "开源精神组织分号器管理系统 - 基于Cloudflare Pages的全栈应用",
@@ -165,4 +166,5 @@
       "last 1 safari version"
     ]
   }
+
 }
