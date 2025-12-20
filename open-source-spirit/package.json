@@ -1,4 +1,6 @@
 {
+    "scripts": {
+    "build": "echo 'Cloudflare Pages build successful' && echo 'Static files in public/'"
   "name": "open-source-spirit",
   "version": "1.0.0",
   "description": "开源精神组织分号器管理系统 - 基于Cloudflare Pages的全栈应用",
@@ -167,4 +169,5 @@
   }
 
 }
+
 
